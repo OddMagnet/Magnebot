@@ -1,0 +1,8 @@
+.DS_Store
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+
+# ignore secrets like api keys etc
+/Sources/Magnebot/Secrets.swift
