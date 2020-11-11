@@ -17,19 +17,8 @@ bot.register("odd", message: "Magnet")
 bot.register("echo") { msg, args in
     msg.reply(with: args.joined(separator: ", "))
 }
-bot.register("users") { msg, _ in
-    bot.guilds.forEach({ key, guild in
-        print(guild.name)
-        guild.getMembers(then: { members, error in 
-            print(members)
-            print(error)
-            msg.reply(with: "Users in \(guild.name):")
-            members?.forEach({ member in
-                msg.reply(with: member.user.username ?? "n/a")
-            })
-        })
-        print("---")
-    })
+bot.register("user") { msg, _ in
+    msg.reply(with: "You are \(msg.author?.username ?? "n/a")")
 }
 
 bot.on(.messageCreate) { data in
