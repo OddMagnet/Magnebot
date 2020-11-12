@@ -11,7 +11,7 @@ let botOptions = ShieldOptions(
 let bot = Shield(token: Secrets.botToken,
                  shieldOptions: botOptions)
 
-bot.editStatus(to: "online", playing: "with Swords!")
+bot.editStatus(to: "online", playing: "I 'member")
 
 bot.register("odd", message: "Magnet")
 bot.register("echo") { msg, args in
@@ -19,6 +19,42 @@ bot.register("echo") { msg, args in
 }
 bot.register("user") { msg, _ in
     msg.reply(with: "You are \(msg.author?.username ?? "n/a")")
+}
+
+/// MARK: Memory tests
+func mapToDouble(strs: [String]) -> [Double] {
+    return strs.compactMap{ Double($0) }
+}
+func printTotalTo(_ msg: Message, args: [String]) {
+    msg.reply(with: args.joined(separator: ", "))
+}
+var result: Double = 0
+bot.register("total", printTotalTo)
+bot.register("plus") { msg, args in
+    let doubles = mapToDouble(strs: args)
+    let total = doubles.reduce(0, +)
+    result += total
+    printTotalTo(msg, args: ["New total: \(result)"])
+}
+bot.register("minus") { msg, args in
+    let doubles = mapToDouble(strs: args)
+    let total = doubles.reduce(0, +)
+    result -= total
+    printTotalTo(msg, args: ["New total: \(result)"])
+}
+bot.register("div") { msg, args in
+    let doubles = mapToDouble(strs: args)
+    doubles.forEach { num in
+        result /= num
+    }
+    printTotalTo(msg, args: ["New total: \(result)"])
+}
+bot.register("mul") { msg, args in
+    let doubles = mapToDouble(strs: args)
+    doubles.forEach { num in
+        result *= num
+    }
+    printTotalTo(msg, args: ["New total: \(result)"])
 }
 
 bot.on(.messageCreate) { data in
